@@ -43,7 +43,7 @@ $light-blue: #91ddee;
                 height: 18px;
                 border-radius: 50%;
                 background-color: $light-gray;
-                margin-left: 2px;
+                margin-left: 4px;
                 transition: all .15s ease;
                 cursor: pointer;
 
@@ -104,7 +104,13 @@ $light-blue: #91ddee;
                     padding: .25em;
                     margin-left: 4px;
                     border-radius: 3px;
-                    cursor: pointer;    
+                    transition: all .15s ease;
+                    cursor: pointer;
+
+
+                    &:hover {
+                        background-color: $light-blue;
+                    }
                 }
             }
         }

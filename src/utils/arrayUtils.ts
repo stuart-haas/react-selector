@@ -31,6 +31,10 @@ export function flatten(array: any, key: string) {
     })
 }
 
+export function pick(o, ...props) {
+    return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
+}
+
 export function dedupe(array: any) {
     return array.filter((item: any, index: number) => {
         return array.indexOf(item) == index
@@ -49,6 +53,16 @@ export function groupBy(array: any, key: string) {
 export function filterBy(array: any, key: string, value: any, compare: Function = equals) {
     return array.filter((item: any) => {
         return compare(item[key], value)
+    })
+}
+
+export function merge(array: any, key: string, keys: any, join: string) {
+    return array.map(item => {
+        const merge = keys.map(key => {
+            return item[key]
+        })
+        item[key] = merge.join(join)
+        return item
     })
 }
 
