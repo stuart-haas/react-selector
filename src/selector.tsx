@@ -9,10 +9,11 @@ type O = any
 interface Props {
     items: any[]
     selected?: any[]
-    keys?: string[]
-    fields?: string[]
+    keys: string[]
     merge?: any
-    display?: string
+    display: string
+    orderBy?: string
+    sort?: any
     placeholder?: string
     noResults?: string
     searchThreshold?: number
@@ -32,7 +33,7 @@ export default class Selector extends React.Component<Props, State> {
         super(props)
         this.state = {
             search: '',
-            items: sortBy(merge(this.props.items, this.props.merge.name, this.props.merge.fields, this.props.merge.join), this.props.display, sortAsc),
+            items: sortBy(merge(this.props.items, this.props.merge.name, this.props.merge.fields, this.props.merge.join), this.props.orderBy ? this.props.orderBy : this.props.display, this.props.sort ? this.props.sort: sortAsc),
             selected: this.props.selected || []
         }
     }
