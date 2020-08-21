@@ -103,15 +103,19 @@ export default class Selector extends React.Component<Props, State> {
         })
     }
 
-    //TODO: Add the ability to navigate the list with the keyboard and select an item with the enter key
+    //TODO: Navigate the list with the keyboard and select an item with the enter key
 
-    //TODO: Add the ability to add custom items
+    //TODO: Add custom items
 
-    //TODO: Add props for setting default values
+    //TODO: Setting default values
 
-    //TODO: Add option to make a single select
+    //TODO: Make a single select
 
-    //TODO: Add option to hide or show list and add button to toggle it
+    //TODO: Hide or show list and add button to toggle it
+
+    //TODO: Add buttons to clear all and select all
+
+    //TODO: Load in via ajax
 
     checkSelected(value: string) {
         return filterBy(this.state.selected, this.props.display, value)
