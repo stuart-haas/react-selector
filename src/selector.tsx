@@ -1,4 +1,4 @@
-import React, { RefObject, Fragment } from 'react'
+import React, { RefObject } from 'react'
 import Fuse from 'fuse.js'
 import { filterBy, notEquals, equals, sortAsc, sortBy, merge } from './utils/arrayUtils'
 import './selector.scss'
@@ -117,6 +117,8 @@ export default class Selector extends React.Component<Props, State> {
     //TODO: Add buttons to clear all and select all
 
     //TODO: Load in via ajax
+
+    //TODO: Highlight matching text in list
 
     checkSelected(value: string) {
         return filterBy(this.state.selected, this.props.display, value)
