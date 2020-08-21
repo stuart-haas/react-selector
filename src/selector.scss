@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+$white: #fff;
+$light-gray: #dcddde;
+$red: #d24021;
+$blue: #21b3d2;
+$light-blue: #91ddee;
+
+.select {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+
+    input {
+        text-transform: initial;
+        padding: .5em .5em .25em .5em;
+        border: none;
+        outline: none;
+    }
+
+    &__selected {
+        position: relative;
+        border: solid 1px $light-gray;
+        padding: .25em;
+        border-radius: 3px;
+
+        &-tag {
+            display: inline-block;
+            background-color: #fff;
+            border: solid 1px $light-gray;
+            margin: .25em;
+            padding: .25em;
+            border-radius: 3px;
+
+            &__label {
+                display: inline-block;
+            }
+
+            &__remove {
+                display: inline-block;
+                vertical-align: sub;
+                position: relative;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background-color: $light-gray;
+                margin-left: 2px;
+                transition: all .15s ease;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $red;
+
+                    &:before, &:after {
+                        background-color: $white;
+                    }
+                }
+    
+                &:before, &:after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 50%;
+                    height: 1px;
+                    background-color: black;
+                    transform: translate(-50%, -50%) rotate(45deg);
+                    transition: all .15s ease;
+                }
+    
+                &:after {
+                    transform: translate(-50%, -50%) rotate(135deg);
+                }
+            }
+        }
+    }
+
+    &-search {
+
+        &__results {
+            margin: .25em 0;
+            max-height: 200px;
+            overflow-y: auto;
+            border: solid 1px $light-gray;
+            border-radius: 6px;
+            padding: .5em;
+
+            &-result {
+                display: flex;
+                align-items: center;
+                margin: .25em 0;
+        
+                input {
+                    display: none;
+                }
+        
+                input:checked {
+                    & + label {
+                        background-color: $light-blue;
+                    }
+                }
+
+                &__label {
+                    display: inline-block;
+                    padding: .25em;
+                    margin-left: 4px;
+                    border-radius: 3px;
+                    cursor: pointer;    
+                }
+            }
+        }
+    }
+}
