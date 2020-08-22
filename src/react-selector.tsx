@@ -23,6 +23,7 @@ interface State {
     search?: string
     items: any[]
     selected: any[]
+    resultsVisible: boolean
 }
 
 export default class Selector extends React.Component<Props, State> {
@@ -35,7 +36,8 @@ export default class Selector extends React.Component<Props, State> {
         this.state = {
             search: '',
             items: wrap(sortBy(merge(this.props.items, this.props.merge.name, this.props.merge.fields, this.props.merge.join), this.props.orderBy ? this.props.orderBy : this.props.display, this.props.sort ? this.props.sort: sortAsc), 'item'),
-            selected: this.props.selected || []
+            selected: this.props.selected || [],
+            resultsVisible: false
         }
         this.items = this.state.items
     }
@@ -133,7 +135,7 @@ export default class Selector extends React.Component<Props, State> {
     render() {
         return (
             <div className="select">
-                <div className="select-search">
+                <div className="select-search" onClick={(e: any) => { this.setState({resultsVisible: !this.state.resultsVisible}) }}>
                     <div className="select__selected">
                         {this.state.selected.map((item: any, index: number) => (
                             <div key={index} className="select__selected-tag">
@@ -151,7 +153,7 @@ export default class Selector extends React.Component<Props, State> {
                         />
                     </div>
                 </div>
-                <ul className="select-search__results">
+                <ul className={(this.state.resultsVisible ? "visible " : "") + "select-search__results"}>
                     {this.state.items.map((item: any, index: number) => (
                         <li key={index} className={(this.state.selected.filter(a => { return item['item'][this.props.display].toLowerCase() == a['item'][this.props.display].toLowerCase() }).length ? "active " : "") + "select-search__results-result"}>
                             <label htmlFor={`item-${index}`} className="select-search__results-result__label" onClick={(e: any) => this.handleSelect(e, item)}>{item['item'][this.props.display]}</label>
