@@ -24,6 +24,11 @@ export function transform(array: any, keys: any) {
     })
 }
 
+export function wrap(array: any, key: string) {
+    return array.map((item: any, index: number) => {
+        return { [key] : item }
+    })
+}
 
 export function flatten(array: any, key: string) {
     return array.map((item: any, index: number) => {

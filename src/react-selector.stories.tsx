@@ -1,5 +1,5 @@
 import React from "react"
-import Selector from './selector'
+import Selector from './react-selector'
 import mock from '../mock.json'
 import { sortAsc } from "./utils/arrayUtils"
 

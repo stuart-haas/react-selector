@@ -12,15 +12,15 @@ $light-blue: #91ddee;
 
     input {
         text-transform: initial;
-        padding: .5em .5em .25em .5em;
-        border: none;
+        padding: .75em .25em .6em .5em;
+        border-color: transparent;
         outline: none;
+        font-size: 1em;
     }
 
     &__selected {
         position: relative;
         border: solid 1px $light-gray;
-        padding: .25em;
         border-radius: 3px;
 
         &-tag {
@@ -30,6 +30,7 @@ $light-blue: #91ddee;
             margin: .25em;
             padding: .25em;
             border-radius: 3px;
+            font-size: 1em;
 
             &__label {
                 display: inline-block;
@@ -88,13 +89,9 @@ $light-blue: #91ddee;
                 display: flex;
                 align-items: center;
                 margin: .25em 0;
-        
-                input {
-                    display: none;
-                }
-        
-                input:checked {
-                    & + label {
+
+                &.active {
+                    label {
                         background-color: $light-blue;
                     }
                 }
@@ -105,8 +102,8 @@ $light-blue: #91ddee;
                     margin-left: 4px;
                     border-radius: 3px;
                     transition: all .15s ease;
+                    font-size: 1em;
                     cursor: pointer;
-
 
                     &:hover {
                         background-color: $light-blue;
