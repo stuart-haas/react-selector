@@ -37,7 +37,7 @@ export default class Selector extends React.Component<Props, State> {
             search: '',
             items: wrap(sortBy(merge(this.props.items, this.props.merge.name, this.props.merge.fields, this.props.merge.join), this.props.orderBy ? this.props.orderBy : this.props.display, this.props.sort ? this.props.sort: sortAsc), 'item'),
             selected: this.props.selected || [],
-            resultsVisible: false
+            resultsVisible: true
         }
         this.items = this.state.items
     }
