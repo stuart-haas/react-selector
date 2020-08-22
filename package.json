@@ -1,5 +1,5 @@
 {
-  "name": "react-selector",
+  "name": "@stuart-haas/react-selector",
   "version": "1.0.0",
   "description": "",
   "main": "build/index.js",
@@ -11,7 +11,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "tslint -c tslint.json --project tsconfig.json",
-    "prepare": "yarn test && yarn lint && yarn build",
     "storybook": "start-storybook -p 6006",
     "storybook:export": "build-storybook"
   },
@@ -26,7 +25,7 @@
   },
   "homepage": "https://github.com/stuart-haas/react-selector#readme",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/stuart-haas"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
