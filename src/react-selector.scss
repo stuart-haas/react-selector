@@ -11,9 +11,9 @@ $light-blue: #91ddee;
     font-size: 14px;
 
     input {
-        flex: 1 0 auto;
+        flex: 1;
         text-transform: initial;
-        padding: .75em .25em .6em .5em;
+        padding: .25em;
         border-color: transparent;
         outline: none;
         font-size: 1em;
@@ -28,6 +28,7 @@ $light-blue: #91ddee;
         border-radius: 3px;
 
         &-tag {
+            flex: 0 1 auto;
             display: inline-block;
             background-color: #fff;
             border: solid 1px $light-gray;
