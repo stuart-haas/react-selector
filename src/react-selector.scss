@@ -2,9 +2,12 @@
 
 $white: #fff;
 $light-gray: #dcddde;
+$medium-gray: #caccce;
 $red: #d24021;
-$blue: #21b3d2;
-$light-blue: #91ddee;
+$blue: #21d4d4;
+$light-blue: #91eeee;
+$medium-blue: #21d4a7;
+$light-green: #91eed7;
 
 .select {
     font-family: 'Open Sans', sans-serif;
@@ -105,11 +108,21 @@ $light-blue: #91ddee;
                 border-radius: 3px;
 
                 &:hover {
-                    background-color: $light-blue;
+                    background-color: $light-gray;
                 }
 
                 &.active {
-                    background-color: $blue;
+                    background-color: $light-gray;
+                    &:hover {
+                        background-color: $medium-gray
+                    }
+                }
+
+                &.selected {
+                    background-color: $medium-blue;
+                    &.active, &:hover {
+                        background-color: $blue;
+                    }
                 }
 
                 &__label {

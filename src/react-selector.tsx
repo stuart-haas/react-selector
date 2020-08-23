@@ -24,6 +24,7 @@ interface State {
     selected: any[]
     isActive: boolean
     hasFocus: boolean
+    cursor: number
 }
 
 export default class Selector extends React.Component<Props, State> {
@@ -38,7 +39,8 @@ export default class Selector extends React.Component<Props, State> {
             items: wrap(sortBy(merge(this.props.items, this.props.merge.name, this.props.merge.fields, this.props.merge.join), this.props.orderBy ? this.props.orderBy : this.props.display, this.props.sort ? this.props.sort: sortAsc), 'item'),
             selected: this.props.selected || [],
             isActive: false,
-            hasFocus: false
+            hasFocus: false,
+            cursor: 0
         }
         this.items = this.state.items
     }
@@ -46,6 +48,12 @@ export default class Selector extends React.Component<Props, State> {
     componentDidMount() {
         this.fuse = new Fuse(this.props.items, { keys: this.props.keys, threshold: this.props.searchThreshold ? this.props.searchThreshold : 0.2 })
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.cursor !== prevState.cursor) {
+          this.scrollActiveItemIntoView();
+        }
+      }
 
     handleSearch(e: any) {
         var { value } = e.target
@@ -81,6 +89,20 @@ export default class Selector extends React.Component<Props, State> {
        
     }
 
+    handleEnter(e: any) {
+        const { items, selected, cursor } = this.state
+        const enter = e.keyCode == 13
+
+        if(enter) {
+            const check =  selected.filter(a => { return a['item'][this.props.display].toLowerCase() == items[cursor]['item'][this.props.display].toLowerCase() })
+            if(check.length) return
+
+            this.setState({
+                selected: selected.concat(items[cursor])
+            }, () => this.focus() )
+        }
+    }
+
     handleDelete(e: any) {
         const { value } = e.target
         const del = e.keyCode == 8
@@ -91,6 +113,22 @@ export default class Selector extends React.Component<Props, State> {
             this.setState({
                 selected
             }, () => this.focus() )
+        }
+    }
+
+    handleNavigateList(e: any) {
+        const { cursor, items } = this.state
+        const up = e.keyCode == 38
+        const down = e.keyCode == 40
+        
+        if(up && cursor > 0) {
+            this.setState(prevState => ({
+                cursor: prevState.cursor - 1
+            }))
+        } else if(down && cursor < items.length - 1) {
+            this.setState(prevState => ({
+                cursor: prevState.cursor + 1
+            }))
         }
     }
 
@@ -108,9 +146,9 @@ export default class Selector extends React.Component<Props, State> {
     }
 
     handleToggleActiveState(e: any) {
-        this.setState({ 
-            isActive: !this.state.isActive
-        })
+        this.setState(prevState => ({ 
+            isActive: !prevState.isActive
+        }))
     }
 
     search(value: string = "") {
@@ -123,6 +161,14 @@ export default class Selector extends React.Component<Props, State> {
             isActive: true
         }, () => this.searchInput.current?.focus())
     }
+
+    scrollActiveItemIntoView() {
+        this.refs.activeItem.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'center'
+        })
+      }
 
     render() {
         return (
@@ -141,7 +187,7 @@ export default class Selector extends React.Component<Props, State> {
                             placeholder={this.props.placeholder ? this.props.placeholder : 'Search...'}
                             value={this.state.search}
                             onChange={(e: any) => { this.handleSearch(e) }}
-                            onKeyDown={(e: any) => {this.handleTab(e); this.handleDelete(e);}}
+                            onKeyDown={(e: any) => {this.handleTab(e); this.handleEnter(e); this.handleDelete(e); this.handleNavigateList(e) }}
                             onFocus={(e: any) => { this.setState({ hasFocus: true })}}
                             onBlur={(e: any) => { this.setState({ hasFocus: false })}}
                         />
@@ -149,7 +195,7 @@ export default class Selector extends React.Component<Props, State> {
                 </div>
                 <ul className={((this.state.hasFocus || this.state.isActive) ? "visible " : "") + "select-search__results"}>
                     {this.state.items.map((item: any, index: number) => (
-                        <li key={index} className={(this.state.selected.filter(a => { return item['item'][this.props.display].toLowerCase() == a['item'][this.props.display].toLowerCase() }).length ? "active " : "") + "select-search__results-result"} onClick={(e: any) => this.handleSelect(e, item)}>
+                        <li ref={this.state.cursor == index && "activeItem"} key={index} className={((this.state.selected.filter(a => { return item['item'][this.props.display].toLowerCase() == a['item'][this.props.display].toLowerCase() }).length) ? "selected " : "") + (this.state.cursor == index ? "active " : "") + "select-search__results-result"} onClick={(e: any) => this.handleSelect(e, item)}>
                             <label htmlFor={`item-${index}`} className="select-search__results-result__label">{item['item'][this.props.display]}</label>
                         </li>
                     ))}
