@@ -22,14 +22,15 @@ interface State {
     search?: string
     items: any[]
     selected: any[]
-    isActive: boolean
+    listActive: boolean
     hasFocus: boolean
     cursor: number
 }
 
 export default class Selector extends React.Component<Props, State> {
+    wrapperRef: RefObject<HTMLDivElement> = React.createRef()
+    inputRef: RefObject<HTMLInputElement> = React.createRef()
     fuse: Fuse<T> = new Fuse([], {})
-    searchInput: RefObject<HTMLInputElement> = React.createRef()
     items: any[]
 
     constructor(props: any) {
@@ -38,7 +39,7 @@ export default class Selector extends React.Component<Props, State> {
             search: '',
             items: wrap(sortBy(merge(this.props.items, this.props.merge.name, this.props.merge.fields, this.props.merge.join), this.props.orderBy ? this.props.orderBy : this.props.display, this.props.sort ? this.props.sort: sortAsc), 'item'),
             selected: this.props.selected || [],
-            isActive: false,
+            listActive: false,
             hasFocus: false,
             cursor: 0
         }
@@ -47,6 +48,20 @@ export default class Selector extends React.Component<Props, State> {
 
     componentDidMount() {
         this.fuse = new Fuse(this.props.items, { keys: this.props.keys, threshold: this.props.searchThreshold ? this.props.searchThreshold : 0.2 })
+        document.addEventListener('mousedown', this.handleClickOutside.bind(this))
+    }
+
+    componentWillMount() {
+        document.removeEventListener('mousedown', this.handleClickOutside.bind(this))
+    }
+
+    handleClickOutside(e: any) {
+        if (this.wrapperRef && !this.wrapperRef.current.contains(e.target)) {
+            this.setState({
+                hasFocus: false,
+                listActive: false
+            })
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -146,9 +161,7 @@ export default class Selector extends React.Component<Props, State> {
     }
 
     handleToggleActiveState(e: any) {
-        this.setState(prevState => ({ 
-            isActive: !prevState.isActive
-        }))
+        this.focus()
     }
 
     search(value: string = "") {
@@ -158,8 +171,8 @@ export default class Selector extends React.Component<Props, State> {
     focus() {
         this.setState({
             hasFocus: true,
-            isActive: true
-        }, () => this.searchInput.current?.focus())
+            listActive: true
+        }, () => this.inputRef.current?.focus())
     }
 
     scrollActiveItemIntoView() {
@@ -172,7 +185,7 @@ export default class Selector extends React.Component<Props, State> {
 
     render() {
         return (
-            <div className="select">
+            <div ref={this.wrapperRef} className="select">
                 <div className="select-search" onClick={(e: any) => { this.handleToggleActiveState(e) }}>
                     <div className="select__selected">
                         {this.state.selected.map((item: any, index: number) => (
@@ -183,7 +196,7 @@ export default class Selector extends React.Component<Props, State> {
                         ))}
                         <input
                             type="text"
-                            ref={this.searchInput}
+                            ref={this.inputRef}
                             placeholder={this.props.placeholder ? this.props.placeholder : 'Search...'}
                             value={this.state.search}
                             onChange={(e: any) => { this.handleSearch(e) }}
@@ -193,7 +206,7 @@ export default class Selector extends React.Component<Props, State> {
                         />
                     </div>
                 </div>
-                <ul className={((this.state.hasFocus || this.state.isActive) ? "visible " : "") + "select-search__results"}>
+                <ul className={((this.state.hasFocus || this.state.listActive) ? "visible " : "") + "select-search__results"}>
                     {this.state.items.map((item: any, index: number) => (
                         <li ref={this.state.cursor == index && "activeItem"} key={index} className={((this.state.selected.filter(a => { return item['item'][this.props.display].toLowerCase() == a['item'][this.props.display].toLowerCase() }).length) ? "selected " : "") + (this.state.cursor == index ? "active " : "") + "select-search__results-result"} onClick={(e: any) => this.handleSelect(e, item)}>
                             <label htmlFor={`item-${index}`} className="select-search__results-result__label">{item['item'][this.props.display]}</label>
