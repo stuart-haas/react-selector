@@ -213,7 +213,7 @@ export default class Selector extends React.Component<Props, State> {
                             <label htmlFor={`item-${index}`} className="select-search__results-result__label">{item['item'][this.props.display]}</label>
                         </li>
                     ))}
-                    {!this.state.items.length && <p className="no-results">{this.props.noResults ? this.props.noResults : 'No results for that search'}</p>}
+                    {!this.state.items.length && <li className="select-search__results-no-results">{this.props.noResults ? this.props.noResults : 'No results for that search'}</li>}
                 </ul>
             </div>
         )
