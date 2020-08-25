@@ -7,9 +7,9 @@ $red: #d24021;
 $blue: #21d4d4;
 $light-blue: #91eeee;
 $medium-blue: #21d4a7;
-$light-green: #91eed7;
 
 .select {
+    position: relative;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
 
@@ -86,6 +86,8 @@ $light-green: #91eed7;
     &-search {
 
         &__results {
+            position: absolute;
+            width: 100%;
             margin: .25em 0;
             max-height: 200px;
             overflow-y: auto;
@@ -95,6 +97,7 @@ $light-green: #91eed7;
             opacity: 0;
             display: none;
             transition: all .15s ease;
+            box-sizing: border-box;
 
             &.visible {
                 display: block;

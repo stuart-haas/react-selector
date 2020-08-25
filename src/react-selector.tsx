@@ -147,9 +147,10 @@ export default class Selector extends React.Component<Props, State> {
         }
     }
 
-    handleSelect(e: any, item: any) {
+    handleSelect(e: any, item: any, index: number) {
         e.stopPropagation()
         this.setState({
+            cursor: index,
             selected: !this.state.selected.includes(item) ? this.state.selected.concat(item) : this.state.selected.filter(a => { return item !== a})
         }, () => this.focus() )
     }
@@ -208,7 +209,7 @@ export default class Selector extends React.Component<Props, State> {
                 </div>
                 <ul className={((this.state.hasFocus || this.state.listActive) ? "visible " : "") + "select-search__results"}>
                     {this.state.items.map((item: any, index: number) => (
-                        <li ref={this.state.cursor == index && "activeItem"} key={index} className={((this.state.selected.filter(a => { return item['item'][this.props.display].toLowerCase() == a['item'][this.props.display].toLowerCase() }).length) ? "selected " : "") + (this.state.cursor == index ? "active " : "") + "select-search__results-result"} onClick={(e: any) => this.handleSelect(e, item)}>
+                        <li ref={this.state.cursor == index && "activeItem"} key={index} className={((this.state.selected.filter(a => { return item['item'][this.props.display].toLowerCase() == a['item'][this.props.display].toLowerCase() }).length) ? "selected " : "") + (this.state.cursor == index ? "active " : "") + "select-search__results-result"} onClick={(e: any) => this.handleSelect(e, item, index)}>
                             <label htmlFor={`item-${index}`} className="select-search__results-result__label">{item['item'][this.props.display]}</label>
                         </li>
                     ))}
