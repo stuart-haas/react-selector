@@ -1,13 +1,18 @@
 import React from "react"
-import Selector from './react-selector'
+import Selector, { SelectorItem, sortAsc } from './react-selector'
 import mock from '../mock.json'
-import { sortAsc } from "./utils/arrayUtils"
 
 export default {
     title: 'Selector'
 }
 
-export const MultiSelect = () => <Selector
+interface Item extends SelectorItem<Item> {
+    first_name: string
+    last_name: string
+    [key: string]: string|Item
+}
+
+export const MultiSelect = () => <Selector<Item>
                                     items={mock}
                                     display={'full_name'}
                                     orderBy={'last_name'}
