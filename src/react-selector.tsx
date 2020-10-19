@@ -145,12 +145,14 @@ export default class Selector<Item> extends React.Component<
     const enter = e.keyCode == 13;
 
     if (enter && items.length) {
-      const check = selected.filter((a) => {
-        return (
-          a['item'][this.props.display].toLowerCase() ==
-          items[cursor]['item'][this.props.display].toLowerCase()
-        );
-      });
+      const check =
+        selected.length &&
+        selected.filter((a) => {
+          return (
+            a['item'][this.props.display].toLowerCase() ==
+            items[cursor]['item'][this.props.display].toLowerCase()
+          );
+        });
       if (check.length) return;
 
       this.setState(
