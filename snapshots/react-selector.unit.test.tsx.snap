@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selector Renders selector 1`] = `
+<div
+  className="select"
+>
+  <div
+    className="select-search"
+    onClick={[Function]}
+  >
+    <div
+      className="select__selected"
+    >
+      <input
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Search..."
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+  <ul
+    className="select-search__results"
+  >
+    <li
+      className="active select-search__results-result"
+      key="0"
+      onClick={[Function]}
+    >
+      <label
+        className="select-search__results-result__label"
+        htmlFor="item-0"
+      >
+        test
+      </label>
+    </li>
+  </ul>
+</div>
+`;

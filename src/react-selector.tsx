@@ -44,7 +44,6 @@ export default class Selector<Item> extends React.Component<
 > {
   wrapperRef: RefObject<HTMLDivElement> = React.createRef();
   inputRef: RefObject<HTMLInputElement> = React.createRef();
-  activeItemRef = React.createRef();
 
   fuse: Fuse<Item> = new Fuse([], {});
   items: Item[];
@@ -83,12 +82,6 @@ export default class Selector<Item> extends React.Component<
         hasFocus: false,
         listActive: false,
       });
-    }
-  }
-
-  componentDidUpdate(prevProps: Props<Item>, prevState: State<Item>): void {
-    if (this.state.cursor !== prevState.cursor) {
-      this.scrollActiveItemIntoView();
     }
   }
 
@@ -160,7 +153,9 @@ export default class Selector<Item> extends React.Component<
           search: '',
           selected: selected.concat(items[cursor]),
         },
-        () => this.focus()
+        () => {
+          this.focus();
+        }
       );
     }
   }
@@ -248,17 +243,7 @@ export default class Selector<Item> extends React.Component<
     );
   }
 
-  scrollActiveItemIntoView(): void {
-    if (this.activeItemRef.current) {
-      this.activeItemRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center',
-      });
-    }
-  }
-
-  transformItems(items: Item[]): { [x: string]: Item }[] {
+  transformItems(items: Item[]): any[] {
     const mergeItems = this.props.merge
       ? this.merge(
           items,
@@ -334,7 +319,6 @@ export default class Selector<Item> extends React.Component<
         >
           {this.state.items.map((item: Item, index: number) => (
             <li
-              ref={this.state.cursor == index && 'activeItemRef'}
               key={index}
               className={
                 (this.state.selected.filter((a) => {
