@@ -18,7 +18,6 @@ interface Compare {
 
 interface Props<Item> {
   items: Item[];
-  selected?: Item[];
   keys: string[];
   display: string;
   merge?: Merge;
@@ -53,7 +52,7 @@ export default class Selector<Item> extends React.Component<
     this.state = {
       search: '',
       items: this.transformItems(this.props.items),
-      selected: this.props.selected || [],
+      selected: [],
       listActive: false,
       hasFocus: false,
       cursor: 0,
